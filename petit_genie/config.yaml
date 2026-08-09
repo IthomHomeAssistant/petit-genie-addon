@@ -3,14 +3,21 @@
 # code. Il permet à Home Assistant d'installer l'add-on par une URL de dépôt,
 # tout en gardant le code source dans un dépôt privé.
 
-name: Petit Génie
-version: "0.1.5"
+name: Nova
+version: "0.1.6"
 slug: petit_genie
 description: Majordome vocal de la maison
 url: https://github.com/IthomHomeAssistant/petit-genie-addon
 arch:
   - aarch64
 image: ghcr.io/ithomhomeassistant/petit-genie-{arch}
+
+# Accès à l'API du superviseur, pour lui demander de relire la boutique quand
+# une nouvelle version est publiée. manager est le rôle MINIMAL : le chemin
+# /store.* est déclaré dans le bloc ROLE_MANAGER du contrôle d'accès du
+# superviseur. C'est un droit large — il ne sert ici qu'à POST /store/reload.
+hassio_api: true
+hassio_role: manager
 
 init: false
 startup: application
@@ -19,7 +26,7 @@ boot: auto
 ingress: true
 ingress_port: 8099
 panel_icon: mdi:lamp
-panel_title: Petit Génie
+panel_title: Nova
 
 ports:
   8443/tcp: 8443
@@ -37,7 +44,9 @@ options:
   mcp_url: ""
   vad_threshold: 0.75
   vad_silence_ms: 900
+  vad_prefix_ms: 300
   noise_reduction: near_field
+  store_reload_minutes: 15
   ssl_cert: ""
   ssl_key: ""
 
@@ -48,6 +57,8 @@ schema:
   mcp_url: str
   vad_threshold: float(0.0,1.0)
   vad_silence_ms: int(200,3000)
+  vad_prefix_ms: int(0,2000)
   noise_reduction: list(near_field|far_field)
+  store_reload_minutes: int(0,1440)
   ssl_cert: str?
   ssl_key: str?
