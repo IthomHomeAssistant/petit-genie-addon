@@ -1,0 +1,53 @@
+# Identique au config.yaml de l'add-on local. Ce dossier est destiné à un
+# PETIT DÉPÔT PUBLIC séparé, qui ne contient que ces deux fichiers — aucun
+# code. Il permet à Home Assistant d'installer l'add-on par une URL de dépôt,
+# tout en gardant le code source dans un dépôt privé.
+
+name: Petit Génie
+version: "0.1.1"
+slug: petit_genie
+description: Majordome vocal de la maison
+url: https://github.com/IthomHomeAssistant/petit-genie-addon
+arch:
+  - aarch64
+image: ghcr.io/ithomhomeassistant/petit-genie-{arch}
+
+init: false
+startup: application
+boot: auto
+
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:lamp
+panel_title: Petit Génie
+
+ports:
+  8443/tcp: 8443
+ports_description:
+  8443/tcp: Accès direct en HTTPS, pour l'application installée sur l'écran d'accueil
+
+map:
+  - ssl:ro
+  - share:rw
+
+options:
+  openai_api_key: ""
+  ha_url: http://homeassistant.local:8123
+  ha_token: ""
+  mcp_url: ""
+  vad_threshold: 0.75
+  vad_silence_ms: 900
+  noise_reduction: near_field
+  ssl_cert: ""
+  ssl_key: ""
+
+schema:
+  openai_api_key: password
+  ha_url: url
+  ha_token: password
+  mcp_url: str
+  vad_threshold: float(0.0,1.0)
+  vad_silence_ms: int(200,3000)
+  noise_reduction: list(near_field|far_field)
+  ssl_cert: str?
+  ssl_key: str?
