@@ -4,7 +4,7 @@
 # tout en gardant le code source dans un dépôt privé.
 
 name: Nova
-version: "0.1.6"
+version: "0.1.9"
 slug: petit_genie
 description: Majordome vocal de la maison
 url: https://github.com/IthomHomeAssistant/petit-genie-addon
@@ -47,6 +47,9 @@ options:
   vad_prefix_ms: 300
   noise_reduction: near_field
   store_reload_minutes: 15
+  forcer_code_amorcage: false
+  rattacher_compte_ha: ""
+  rattacher_a_profil: ""
   ssl_cert: ""
   ssl_key: ""
 
@@ -60,5 +63,8 @@ schema:
   vad_prefix_ms: int(0,2000)
   noise_reduction: list(near_field|far_field)
   store_reload_minutes: int(0,1440)
+  forcer_code_amorcage: bool
+  rattacher_compte_ha: str?
+  rattacher_a_profil: str?
   ssl_cert: str?
   ssl_key: str?
