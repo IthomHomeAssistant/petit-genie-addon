@@ -4,7 +4,7 @@
 # tout en gardant le code source dans un dépôt privé.
 
 name: Nova
-version: "0.1.19"
+version: "0.1.20"
 slug: petit_genie
 description: Majordome vocal de la maison
 url: https://github.com/IthomHomeAssistant/petit-genie-addon
@@ -47,6 +47,10 @@ options:
   # déclaré ici parce que le code le lit, et qu'une option lue mais absente du
   # schéma serait supprimée à l'enregistrement.
   mcp_url_remote: ""
+  # Délégation vers un modèle de raisonnement et recherche web
+  # (reflechir_en_profondeur, actualites). Sans elle ces deux outils
+  # refusent en le disant ; le reste du majordome fonctionne.
+  anthropic_api_key: ""
   vad_threshold: 0.75
   vad_silence_ms: 900
   vad_prefix_ms: 300
@@ -64,6 +68,7 @@ schema:
   ha_token: password
   mcp_url: str
   mcp_url_remote: str?
+  anthropic_api_key: password?
   vad_threshold: float(0.0,1.0)
   vad_silence_ms: int(200,3000)
   vad_prefix_ms: int(0,2000)
