@@ -4,7 +4,7 @@
 # tout en gardant le code source dans un dépôt privé.
 
 name: Nova
-version: "0.1.35"
+version: "0.1.39"
 slug: petit_genie
 description: Majordome vocal de la maison
 url: https://github.com/IthomHomeAssistant/petit-genie-addon
@@ -55,6 +55,8 @@ options:
   # Home Assistant. Vide = la route répond 404, donc elle n'existe pas.
   briefing_token: ""
   push_contact: ""
+  vad_mode: semantic_vad
+  vad_eagerness: low
   vad_threshold: 0.75
   vad_silence_ms: 900
   vad_prefix_ms: 300
@@ -75,6 +77,8 @@ schema:
   anthropic_api_key: password?
   briefing_token: password?
   push_contact: str?
+  vad_mode: list(semantic_vad|server_vad)?
+  vad_eagerness: list(low|medium|high|auto)?
   vad_threshold: float(0.0,1.0)
   vad_silence_ms: int(200,3000)
   vad_prefix_ms: int(0,2000)
