@@ -4,7 +4,7 @@
 # tout en gardant le code source dans un dépôt privé.
 
 name: Nova
-version: "0.1.52"
+version: "0.1.53"
 slug: petit_genie
 description: Majordome vocal de la maison
 url: https://github.com/IthomHomeAssistant/petit-genie-addon
