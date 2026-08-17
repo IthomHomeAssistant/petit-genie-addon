@@ -4,12 +4,17 @@
 # tout en gardant le code source dans un dépôt privé.
 
 name: Nova
-version: "0.1.58"
+version: "0.1.60"
 slug: petit_genie
 description: Majordome vocal de la maison
 url: https://github.com/IthomHomeAssistant/petit-genie-addon
+# Les deux architectures. C'EST CE FICHIER-CI QUI COMPTE À L'INSTALLATION :
+# l'add-on installé tourne sur le config.yaml du dépôt PUBLIC, et ce dépôt se met
+# à jour à la main. Ajouter amd64 ici et l'oublier là ferait croire à une image
+# manquante alors que l'image existe.
 arch:
   - aarch64
+  - amd64
 image: ghcr.io/ithomhomeassistant/petit-genie-{arch}
 
 # Accès à l'API du superviseur, pour lui demander de relire la boutique quand
