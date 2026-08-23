@@ -4,7 +4,111 @@
 # tout en gardant le code source dans un dépôt privé.
 
 name: Nova
-version: "0.1.73"
+version: "0.1.74"
+slug: petit_genie
+description: Majordome vocal de la maison
+url: https://github.com/IthomHomeAssistant/petit-genie-addon
+# Les deux architectures. C'EST CE FICHIER-CI QUI COMPTE À L'INSTALLATION :
+# l'add-on installé tourne sur le config.yaml du dépôt PUBLIC, et ce dépôt se met
+# à jour à la main. Ajouter amd64 ici et l'oublier là ferait croire à une image
+# manquante alors que l'image existe.
+arch:
+  - aarch64
+  - amd64
+image: ghcr.io/ithomhomeassistant/petit-genie-{arch}
+
+# Accès à l'API du superviseur, pour lui demander de relire la boutique quand
+# une nouvelle version est publiée. manager est le rôle MINIMAL : le chemin
+# /store.* est déclaré dans le bloc ROLE_MANAGER du contrôle d'accès du
+# superviseur. C'est un droit large — il ne sert ici qu'à POST /store/reload.
+hassio_api: true
+hassio_role: manager
+
+init: false
+startup: application
+boot: auto
+
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:lamp
+panel_title: Nova
+
+ports:
+  8443/tcp: 8443
+ports_description:
+  8443/tcp: Accès direct en HTTPS, pour l'application installée sur l'écran d'accueil
+
+map:
+  - ssl:ro
+  - share:rw
+
+options:
+  openai_api_key: ""
+  ha_url: http://homeassistant.local:8123
+  ha_token: ""
+  mcp_url: ""
+  # Repli quand l'adresse locale ne répond pas : le proxy webhook Nabu Casa.
+  # Inutile pour l'add-on, qui atteint `ha-mcp` sur la boucle locale ; il est
+  # déclaré ici parce que le code le lit, et qu'une option lue mais absente du
+  # schéma serait supprimée à l'enregistrement.
+  mcp_url_remote: ""
+  # Délégation vers un modèle de raisonnement et recherche web
+  # (reflechir_en_profondeur, actualites). Sans elle ces deux outils
+  # refusent en le disant ; le reste du majordome fonctionne.
+  anthropic_api_key: ""
+  # Jeton partagé de la route /briefing, appelée par une automatisation
+  # Home Assistant. Vide = la route répond 404, donc elle n'existe pas.
+  briefing_token: ""
+  push_contact: ""
+  m365_client_id: ""
+  vad_mode: semantic_vad
+  vad_eagerness: low
+  vad_threshold: 0.75
+  vad_silence_ms: 900
+  vad_prefix_ms: 300
+  noise_reduction: near_field
+  store_reload_minutes: 15
+  # Tours de conversation gardés mot pour mot pour reprendre le fil.
+  # Un TOUR est une prise de parole : 12 font six aller-retours.
+  # Se paie à chaque ouverture de session, jamais caché — mais il pèse
+  # peu (~1 500 car.) face aux schémas d'outils. Baisser d'abord ceux-là.
+  continuite_tours: 12
+  forcer_code_amorcage: false
+  rattacher_compte_ha: ""
+  rattacher_a_profil: ""
+  ssl_cert: ""
+  ssl_key: ""
+
+schema:
+  openai_api_key: password
+  ha_url: url
+  ha_token: password
+  mcp_url: str
+  mcp_url_remote: str?
+  anthropic_api_key: password?
+  briefing_token: password?
+  push_contact: str?
+  m365_client_id: str?
+  vad_mode: list(semantic_vad|server_vad)?
+  vad_eagerness: list(low|medium|high|auto)?
+  vad_threshold: float(0.0,1.0)
+  vad_silence_ms: int(200,3000)
+  vad_prefix_ms: int(0,2000)
+  noise_reduction: list(near_field|far_field)
+  store_reload_minutes: int(0,1440)
+  continuite_tours: int(0,40)
+  forcer_code_amorcage: bool
+  rattacher_compte_ha: str?
+  rattacher_a_profil: str?
+  ssl_cert: str?
+  ssl_key: str?
+# Identique au config.yaml de l'add-on local. Ce dossier est destiné à un
+# PETIT DÉPÔT PUBLIC séparé, qui ne contient que ces deux fichiers — aucun
+# code. Il permet à Home Assistant d'installer l'add-on par une URL de dépôt,
+# tout en gardant le code source dans un dépôt privé.
+
+name: Nova
+version: "0.1.74"
 slug: petit_genie
 description: Majordome vocal de la maison
 url: https://github.com/IthomHomeAssistant/petit-genie-addon
